@@ -2,12 +2,12 @@
 
 ## Installation 
 
--   there are pre-built binaries for mainstream platforms: [releases](https://github.com/JeromeSchmied/cgol-tui-rs/releases/latest)
+-   there are pre-built binaries for mainstream platforms: [releases](https://github.com/jarjk/cgol-tui-rs/releases/latest)
 
 ### having the [Rust toolchain](https://rustup.rs) installed
 -   `cargo install cgol-tui`
--   `cargo install --locked --git "https://github.com/JeromeSchmied/cgol-tui-rs"`
--   clone the repo (`git clone https://github.com/jeromeschmied/cgol-tui-rs`) and run `cargo install --locked --path .`
+-   `cargo install --locked --git "https://github.com/jarjk/cgol-tui-rs"`
+-   clone the repo (`git clone https://github.com/jarjk/cgol-tui-rs`) and run `cargo install --locked --path .`
 
 ## Usage
 
