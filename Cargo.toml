@@ -6,7 +6,7 @@ edition = "2021"
 description = "Conway's Game of Life implementation with a TUI"
 license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/cgol-tui"
-repository = "https://github.com/JeromeSchmied/cgol-tui-rs"
+repository = "https://github.com/jarjk/cgol-tui-rs"
 keywords = ["conway", "game-of-life", "tui"]
 categories = ["games"]
 
