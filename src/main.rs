@@ -8,11 +8,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut app = App::default().with_universes(arg_universes);
 
-    let mut terminal = ratatui::try_init()?;
+    let backend = ratatui_manoterm::try_init()?;
+    let mut terminal = ratatui::Terminal::new(backend)?;
 
     let res = app.run(&mut terminal);
 
-    ratatui::try_restore()?;
+    ratatui_manoterm::try_restore()?;
 
     Ok(res?)
 }
