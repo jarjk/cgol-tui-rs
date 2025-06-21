@@ -1,7 +1,7 @@
 pub use area::Area;
 pub use cell::Cell;
-use crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use ratatui::{backend::Backend, Terminal};
+use ratatui_manoterm::Key;
 use std::{io, str::FromStr, time::Duration};
 pub use universe::Universe;
 
@@ -134,30 +134,24 @@ impl App {
     }
     pub fn run<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<()> {
         let mut prev_poll_t = self.poll_t;
+        let k_recv = Key::receiver();
 
         loop {
-            terminal.draw(|f| ui::ui(f, self))?;
+            terminal.draw(|f| ui::ui(f, self)).unwrap();
+            let read_key = k_recv.recv_timeout(self.poll_t).unwrap_or_default();
 
             // Wait up to `poll_t` for another event
-            if event::poll(self.poll_t)? {
-                if let Event::Key(key) = event::read()? {
-                    if key.kind != KeyEventKind::Press {
-                        continue;
-                    }
-                    match key.code {
-                        KeyCode::Char('q') | KeyCode::Esc => break,
-                        KeyCode::Char('j') | KeyCode::Down => self.slower(false),
-                        KeyCode::Char('k') | KeyCode::Up => self.faster(false),
-                        KeyCode::Char(' ') | KeyCode::Enter => self.play_pause(&mut prev_poll_t),
-                        KeyCode::Char('r') => self.restart(),
-                        KeyCode::Char('n' | 'l') | KeyCode::Right => self.next(),
-                        KeyCode::Char('p' | 'h') | KeyCode::Left => self.prev(),
-                        KeyCode::Char('R') | KeyCode::Backspace => *self = Self::default(),
-                        _ => {}
-                    }
-                } else {
-                    // resize and restart
-                    self.restart();
+            if let Some(key) = read_key {
+                match key {
+                    Key::Char('q') | Key::Escape => break,
+                    Key::Char('j') | Key::Down => self.slower(false),
+                    Key::Char('k') | Key::Up => self.faster(false),
+                    Key::Char(' ' | '\n') => self.play_pause(&mut prev_poll_t),
+                    Key::Char('r') => self.restart(),
+                    Key::Char('n' | 'l') | Key::Right => self.next(),
+                    Key::Char('p' | 'h') | Key::Left => self.prev(),
+                    Key::Char('R') | Key::Backspace => *self = Self::default(),
+                    _ => {}
                 }
             } else {
                 // Timeout expired, updating life state
