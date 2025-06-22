@@ -137,7 +137,9 @@ impl App {
         let k_recv = Key::receiver();
 
         loop {
-            terminal.draw(|f| ui::ui(f, self)).unwrap();
+            terminal
+                .draw(|f| ui::ui(f, self))
+                .map_err(|e| io::Error::other(format!("failed to draw frame: {e}")))?;
             let read_key = k_recv.recv_timeout(self.poll_t).unwrap_or_default();
 
             // Wait up to `poll_t` for another event
