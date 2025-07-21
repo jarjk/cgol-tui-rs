@@ -11,6 +11,6 @@ keywords = ["conway", "game-of-life", "tui"]
 categories = ["games"]
 
 [dependencies]
-crossterm = { version = "0.28.1", features = ["use-dev-tty"] }
+crossterm = { version = "0.29.0", features = ["use-dev-tty"] }
 fastrand = "2.3.0"
 ratatui = "0.29.0"
