@@ -12,5 +12,5 @@ categories = ["games"]
 
 [dependencies]
 fastrand = "2.3.0"
-ratatui = { version = "0.30.0-alpha.4", default-features = false }
+ratatui = { version = "0.30.0-beta.0", default-features = false }
 ratatui-manoterm = { git = "https://codeberg.org/jark/manoterm", branch = "ratatui-backend", version = "0.1.0" }
