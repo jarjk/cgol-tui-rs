@@ -1,6 +1,6 @@
 pub use area::Area;
 pub use cell::Cell;
-use ratatui::{backend::Backend, Terminal};
+use ratatui::{Terminal, backend::Backend};
 use ratatui_manoterm::Key;
 use std::{io, str::FromStr, time::Duration};
 pub use universe::Universe;

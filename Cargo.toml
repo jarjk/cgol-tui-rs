@@ -2,7 +2,7 @@
 name = "cgol-tui"
 version = "0.6.9"
 authors = ["Jeromos Kovacs <iitsnotme214@proton.me>"]
-edition = "2021"
+edition = "2024"
 description = "Conway's Game of Life implementation with a TUI"
 license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/cgol-tui"
