@@ -73,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           pattern: "**/cgol-tui-rs-*"
           path: target/release-artifacts
