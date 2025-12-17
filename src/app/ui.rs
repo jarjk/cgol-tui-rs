@@ -1,10 +1,10 @@
 use crate::{app::App, app::Area};
 use ratatui::{
+    Frame,
     layout::{Constraint, Layout},
     style::Stylize,
     text::Line,
-    widgets::{canvas::Canvas, Block, BorderType},
-    Frame,
+    widgets::{Block, BorderType, canvas::Canvas},
 };
 
 /// area of a braille character

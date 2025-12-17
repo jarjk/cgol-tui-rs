@@ -7,11 +7,7 @@ pub enum Cell {
 }
 impl From<bool> for Cell {
     fn from(alive: bool) -> Self {
-        if alive {
-            Self::Alive
-        } else {
-            Self::Dead
-        }
+        if alive { Self::Alive } else { Self::Dead }
     }
 }
 impl TryFrom<char> for Cell {
