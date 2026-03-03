@@ -60,7 +60,7 @@ jobs:
           tree dist || ls -la dist
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: cgol-tui-rs-${{ matrix.target }}
           path: dist/cgol-tui*
