@@ -11,6 +11,6 @@ keywords = ["conway", "game-of-life", "tui"]
 categories = ["games"]
 
 [dependencies]
-fastrand = "2.3.0"
-ratatui = { version = "0.30.0", default-features = false }
-ratatui-manoterm = { git = "https://codeberg.org/jark/manoterm", branch = "ratatui-backend", version = "0.1.0" }
+fastrand = "2.3"
+ratatui = { version = "0.30", default-features = false }
+ratatui-manoterm = { git = "https://codeberg.org/jark/manoterm", branch = "ratatui-backend" }
