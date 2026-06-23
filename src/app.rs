@@ -1,6 +1,6 @@
 pub use area::Area;
 pub use cell::Cell;
-use crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use ratatui::crossterm::event::{self, Event, KeyCode, KeyEventKind};
 use ratatui::{backend::Backend, Terminal};
 use std::{io, str::FromStr, time::Duration};
 pub use universe::Universe;
@@ -132,7 +132,10 @@ impl App {
         }
         self.restart();
     }
-    pub fn run<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<()> {
+    pub fn run<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<()>
+    where
+        io::Error: From<<B as Backend>::Error>,
+    {
         let mut prev_poll_t = self.poll_t;
 
         loop {

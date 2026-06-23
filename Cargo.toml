@@ -1,6 +1,6 @@
 [package]
 name = "cgol-tui"
-version = "0.6.9"
+version = "0.6.10"
 authors = ["Jeromos Kovacs <iitsnotme214@proton.me>"]
 edition = "2021"
 description = "Conway's Game of Life implementation with a TUI"
@@ -11,6 +11,5 @@ keywords = ["conway", "game-of-life", "tui"]
 categories = ["games"]
 
 [dependencies]
-crossterm = { version = "0.28", features = ["use-dev-tty"] }
 fastrand = "2.4"
-ratatui = "0.29"
+ratatui = "0.30"
