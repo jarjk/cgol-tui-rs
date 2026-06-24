@@ -49,12 +49,10 @@ pub fn ui(f: &mut Frame, app: &mut App) {
 
     let current_keys_hint = "[q]uit, [r]estart, pause: [ ], nav: vim/arrows".yellow();
 
-    let poll_t = {
-        if let super::PAUSE = app.poll_t {
-            "paused".into()
-        } else {
-            format!("Poll time: {:.0?}", app.poll_t)
-        }
+    let poll_t = if app.paused() {
+        "paused".into()
+    } else {
+        format!("Poll time: {:.0?}", app.poll_t)
     }
     .light_blue();
 

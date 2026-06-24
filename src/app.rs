@@ -7,8 +7,6 @@ pub use universe::Universe;
 
 /// Default poll duration
 const DEF_DUR: Duration = Duration::from_millis(400);
-/// Pause duration: a day
-const PAUSE: Duration = Duration::from_secs(60 * 60 * 24);
 
 mod area;
 mod cell;
@@ -27,6 +25,7 @@ pub struct App {
     universe: Universe,
     i: usize,
     pub poll_t: Duration,
+    paused: bool,
     pub area: Area,
 }
 impl Default for App {
@@ -36,6 +35,7 @@ impl Default for App {
             universe: Universe::default(),
             i: 0,
             poll_t: DEF_DUR,
+            paused: false,
             available_universes: shapes::all(),
         }
     }
@@ -51,13 +51,13 @@ impl App {
         App {
             area,
             universe: available_universes[0].clone(),
-            i: 0,
             poll_t,
             available_universes,
+            ..Default::default()
         }
     }
     pub fn paused(&self) -> bool {
-        self.poll_t == PAUSE
+        self.paused
     }
     pub fn len(&self) -> usize {
         self.available_universes.len() + shapes::N
@@ -79,13 +79,8 @@ impl App {
     //     println!("{}", self.universe);
     // }
 
-    pub fn play_pause(&mut self, prev_poll_t: &mut Duration) {
-        if self.paused() {
-            self.poll_t = *prev_poll_t;
-        } else {
-            *prev_poll_t = self.poll_t;
-            self.poll_t = PAUSE;
-        }
+    pub fn play_pause(&mut self) {
+        self.paused = !self.paused;
     }
     pub fn restart(&mut self) {
         let figur = self.get();
@@ -136,8 +131,6 @@ impl App {
     where
         io::Error: From<<B as Backend>::Error>,
     {
-        let mut prev_poll_t = self.poll_t;
-
         loop {
             terminal.draw(|f| ui::ui(f, self))?;
 
@@ -151,7 +144,7 @@ impl App {
                         KeyCode::Char('q') | KeyCode::Esc => break,
                         KeyCode::Char('j') | KeyCode::Down => self.slower(false),
                         KeyCode::Char('k') | KeyCode::Up => self.faster(false),
-                        KeyCode::Char(' ') | KeyCode::Enter => self.play_pause(&mut prev_poll_t),
+                        KeyCode::Char(' ') | KeyCode::Enter => self.play_pause(),
                         KeyCode::Char('r') => self.restart(),
                         KeyCode::Char('n' | 'l') | KeyCode::Right => self.next(),
                         KeyCode::Char('p' | 'h') | KeyCode::Left => self.prev(),
@@ -162,7 +155,7 @@ impl App {
                     // resize and restart
                     self.restart();
                 }
-            } else {
+            } else if !self.paused() {
                 // Timeout expired, updating life state
                 self.tick();
             }
