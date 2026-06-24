@@ -12,4 +12,4 @@ categories = ["games"]
 
 [dependencies]
 fastrand = "2.4"
-ratatui = "0.30"
+ratatui = { version = "0.30", default-features = false, features = ["termina"] }
