@@ -1,6 +1,7 @@
 pub use area::Area;
 pub use cell::Cell;
-use ratatui::crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use ratatui::termina::event::{KeyCode, KeyEventKind};
+use ratatui::termina::{Event, EventReader};
 use ratatui::{backend::Backend, Terminal};
 use std::{io, str::FromStr, time::Duration};
 pub use universe::Universe;
@@ -127,21 +128,25 @@ impl App {
         }
         self.restart();
     }
-    pub fn run<B: Backend>(&mut self, terminal: &mut Terminal<B>) -> io::Result<()>
+    pub fn run<B: Backend>(
+        &mut self,
+        terminal: &mut Terminal<B>,
+        events: &EventReader,
+    ) -> io::Result<()>
     where
         io::Error: From<<B as Backend>::Error>,
     {
         loop {
             terminal.draw(|f| ui::ui(f, self))?;
 
-            // Wait up to `poll_t` for another event
-            if event::poll(self.poll_t)? {
-                if let Event::Key(key) = event::read()? {
+            if events.poll(Some(self.poll_t), |_| true)? {
+                let event = events.read(|_| true)?;
+                if let Event::Key(key) = &event {
                     if key.kind != KeyEventKind::Press {
                         continue;
                     }
                     match key.code {
-                        KeyCode::Char('q') | KeyCode::Esc => break,
+                        KeyCode::Char('q') | KeyCode::Escape => break,
                         KeyCode::Char('j') | KeyCode::Down => self.slower(false),
                         KeyCode::Char('k') | KeyCode::Up => self.faster(false),
                         KeyCode::Char(' ') | KeyCode::Enter => self.play_pause(),
@@ -152,7 +157,6 @@ impl App {
                         _ => {}
                     }
                 } else {
-                    // resize and restart
                     self.restart();
                 }
             } else if !self.paused() {
